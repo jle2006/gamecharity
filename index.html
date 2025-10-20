@@ -3,55 +3,194 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jeff the Shark Water Saver Game</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Save the Water Game</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(to bottom, #c8e9ff, #d9fbe6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      width: 90%;
+      margin-top: 10px;
+    }
+
+    .stat-box {
+      background: white;
+      border-radius: 15px;
+      padding: 10px 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .game-container {
+      width: 90%;
+      max-width: 1100px;
+      height: 400px;
+      background: linear-gradient(to bottom, #e3f2ff, #e3fdee);
+      border-radius: 20px;
+      border: 2px dashed #a4c9c1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin: 20px 0;
+      padding: 20px;
+    }
+
+    .emoji {
+      font-size: 4rem;
+      position: absolute;
+      bottom: 30px;
+    }
+
+    #waterSource {
+      left: 80px;
+    }
+
+    #bucket {
+      right: 80px;
+    }
+
+    #jeff {
+      left: 45%;
+      bottom: 30px;
+      transition: bottom 0.3s;
+    }
+
+    .obstacle {
+      position: absolute;
+      bottom: 30px;
+      font-size: 3rem;
+      animation: moveObstacle 4s linear infinite;
+    }
+
+    @keyframes moveObstacle {
+      0% { right: -50px; }
+      100% { right: 110%; }
+    }
+
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 15px;
+      background: #f4f4f4;
+      font-size: 0.9rem;
+      border-top: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #0077ff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #005fcc;
+    }
+  </style>
 </head>
 <body>
-  <div id="difficulty-screen">
-    <h1>Choose Difficulty</h1>
-    <button class="difficulty-btn" data-speed="2">Easy</button>
-    <button class="difficulty-btn" data-speed="4">Medium</button>
-    <button class="difficulty-btn" data-speed="6">Hard</button>
-  </div>
-
-  <div id="game-container" class="hidden">
-    <div class="stats">
-      <div class="stat-box">
-        <p>Score</p>
-        <span id="score">0 points</span>
-      </div>
-      <div class="stat-box">
-        <p>Time Left</p>
-        <span id="time">100s</span>
-      </div>
-      <div class="stat-box">
-        <p>Water Saved</p>
-        <span id="water-saved">0%</span>
-      </div>
+  <div class="stats-container">
+    <div class="stat-box">
+      <p><strong>Score</strong></p>
+      <p id="score">0 points</p>
     </div>
-
-    <div id="game-area">
-      <div id="water-source">
-        <div class="source"></div>
-        <p>Water Source</p>
-      </div>
-      <div id="jeff">
-        <img src="Jeff_the_Land_Shark_Hero_Portrait-removebg-preview.png" alt="Jeff the Shark">
-        <p>Jeff the Shark<br><span id="jeff-status">Empty</span></p>
-      </div>
-      <div id="bucket">
-        <div class="bucket"></div>
-        <p>Bucket</p>
-      </div>
+    <div class="stat-box">
+      <p><strong>Time Left</strong></p>
+      <p id="time">100s</p>
+    </div>
+    <div class="stat-box">
+      <p><strong>Water Saved</strong></p>
+      <p id="water">0%</p>
     </div>
   </div>
+
+  <div class="game-container" id="gameArea">
+    <div id="waterSource" class="emoji">💧</div>
+    <div id="jeff" class="emoji">🦈</div>
+    <div id="bucket" class="emoji">🪣</div>
+  </div>
+
+  <button onclick="startGame()">Donate Now</button>
 
   <footer>
-    <p>Help save the ocean with Jeff the Shark! 🌊</p>
-    <button id="donate-btn">Donate Now</button>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Water_drop_logo.png" alt="Charity Logo" id="charity-logo">
+    <p>🌊 Help Jeff the Shark save water and make the planet cleaner!</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    const jeff = document.getElementById("jeff");
+    const gameArea = document.getElementById("gameArea");
+    const scoreDisplay = document.getElementById("score");
+    let score = 0;
+    let jumping = false;
+    let gameRunning = false;
+
+    function jump() {
+      if (jumping || !gameRunning) return;
+      jumping = true;
+      jeff.style.bottom = "150px";
+      setTimeout(() => {
+        jeff.style.bottom = "30px";
+        jumping = false;
+      }, 600);
+    }
+
+    function createObstacle() {
+      if (!gameRunning) return;
+      const obstacle = document.createElement("div");
+      obstacle.classList.add("obstacle");
+      obstacle.textContent = Math.random() > 0.5 ? "🌵" : "🪨";
+      obstacle.style.right = "-50px";
+      gameArea.appendChild(obstacle);
+
+      const moveInterval = setInterval(() => {
+        const obstacleRect = obstacle.getBoundingClientRect();
+        const jeffRect = jeff.getBoundingClientRect();
+
+        if (
+          obstacleRect.left < jeffRect.right - 30 &&
+          obstacleRect.right > jeffRect.left + 30 &&
+          obstacleRect.bottom > jeffRect.top + 30
+        ) {
+          score -= 5;
+          scoreDisplay.textContent = `${score} points`;
+          obstacle.remove();
+          clearInterval(moveInterval);
+        }
+
+        if (obstacleRect.right > window.innerWidth + 100) {
+          obstacle.remove();
+          clearInterval(moveInterval);
+        }
+      }, 50);
+
+      setTimeout(createObstacle, Math.random() * 2500 + 1500);
+    }
+
+    function startGame() {
+      gameRunning = true;
+      score = 0;
+      scoreDisplay.textContent = "0 points";
+      createObstacle();
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Space") jump();
+      });
+    }
+  </script>
 </body>
 </html>
