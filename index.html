@@ -8,23 +8,25 @@
 </head>
 <body>
   <header>
+    <img id="logo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="Charity: water logo">
     <h1>💧 Jeff the Land Shark: Water Saver</h1>
   </header>
 
   <main>
+    <div id="controls">
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="normal" selected>Normal</option>
+        <option value="hard">Hard</option>
+      </select>
+      <button id="startGame">Start Game</button>
+    </div>
+
     <div id="hud">
-      <div class="stat">
-        <h3>Score</h3>
-        <p id="score">0</p>
-      </div>
-      <div class="stat">
-        <h3>Time Left</h3>
-        <p id="time">150</p>
-      </div>
-      <div class="stat">
-        <h3>Water Saved</h3>
-        <p id="waterSaved">0%</p>
-      </div>
+      <div class="stat"><h3>Score</h3><p id="score">0</p></div>
+      <div class="stat"><h3>Time</h3><p id="time">150</p></div>
+      <div class="stat"><h3>Water Saved</h3><p id="waterSaved">0%</p></div>
     </div>
 
     <div id="gameArea">
@@ -32,16 +34,28 @@
       <img id="jeff" src="Jeff_the_Land_Shark_Hero_Portrait-removebg-preview.png" alt="Jeff the Shark" />
       <div id="bucket">🪣 Bucket</div>
 
-      <!-- Example obstacles -->
       <div class="obstacle" style="left: 400px;"></div>
-      <div class="obstacle" style="left: 700px;"></div>
-      <div class="obstacle" style="left: 1000px;"></div>
+      <div class="obstacle" style="left: 800px;"></div>
+      <div class="obstacle" style="left: 1100px;"></div>
+
+      <div id="progressContainer">
+        <div id="progressBar"></div>
+      </div>
     </div>
   </main>
 
   <footer>
-    <p>Inspired by <a href="https://www.charitywater.org" target="_blank">charity: water</a> 💙</p>
+    <div class="footer-content">
+      <img class="footer-logo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="Charity: water logo">
+      <div>
+        <p>Inspired by <a href="https://www.charitywater.org" target="_blank">charity: water</a> 💛 — bringing clean water to those in need.</p>
+        <p><a href="https://www.charitywater.org/donate" target="_blank" class="donate-btn">Donate to charity: water</a></p>
+      </div>
+    </div>
   </footer>
+
+  <audio id="collectSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_7c365e38c1.mp3"></audio>
+  <audio id="loseSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f7106e3b15.mp3"></audio>
 
   <script src="script.js"></script>
 </body>
