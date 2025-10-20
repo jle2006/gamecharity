@@ -3,62 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jeff the Land Shark - Water Saver</title>
+  <title>Jeff’s Water Run for charity: water</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Start Screen -->
-  <div id="startScreen">
-    <img id="startLogo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="charity: water logo">
-    <h1>💧 Jeff the Land Shark: Water Saver</h1>
+  <!-- Difficulty Selection Screen -->
+  <div id="difficulty-screen" class="screen active">
+    <h1>Jeff’s Water Run</h1>
     <p>Select your difficulty:</p>
-    <div id="difficultyButtons">
-      <button class="difficulty-btn easy">Easy</button>
-      <button class="difficulty-btn medium">Medium</button>
-      <button class="difficulty-btn hard">Hard</button>
+    <div class="buttons">
+      <button onclick="startGame('easy')">Easy</button>
+      <button onclick="startGame('medium')">Medium</button>
+      <button onclick="startGame('hard')">Hard</button>
     </div>
   </div>
 
-  <!-- Game Area -->
-  <header id="gameHeader" class="hidden">
-    <img id="logo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="Charity: water logo">
-    <h1>💧 Jeff the Land Shark: Water Saver</h1>
-  </header>
-
-  <main id="gameMain" class="hidden">
-    <div id="hud">
-      <div class="stat"><h3>Score</h3><p id="score">0</p></div>
-      <div class="stat"><h3>Time</h3><p id="time">150</p></div>
-      <div class="stat"><h3>Water Saved</h3><p id="waterSaved">0%</p></div>
+  <!-- Game Screen -->
+  <div id="game-screen" class="screen">
+    <div id="game-container">
+      <img id="jeff" src="Jeff_the_Land_Shark_Hero_Portrait-removebg-preview.png" alt="Jeff the Land Shark" />
+      <div id="bucket"></div>
     </div>
+    <p id="score">Distance: 0 miles</p>
+  </div>
 
-    <div id="gameArea">
-      <div id="waterSource">💦 Water Source</div>
-      <img id="jeff" src="Jeff_the_Land_Shark_Hero_Portrait-removebg-preview.png" alt="Jeff the Shark" />
-      <div id="bucket">🪣 Bucket</div>
-
-      <div class="obstacle" style="left: 400px;"></div>
-      <div class="obstacle" style="left: 800px;"></div>
-      <div class="obstacle" style="left: 1100px;"></div>
-
-      <div id="progressContainer">
-        <div id="progressBar"></div>
-      </div>
-    </div>
-  </main>
-
-  <footer id="gameFooter" class="hidden">
-    <div class="footer-content">
-      <img class="footer-logo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="Charity: water logo">
-      <div>
-        <p>Inspired by <a href="https://www.charitywater.org" target="_blank">charity: water</a> 💛 — bringing clean water to those in need.</p>
-        <p><a href="https://www.charitywater.org/donate" target="_blank" class="donate-btn">Donate to charity: water</a></p>
-      </div>
-    </div>
+  <!-- Footer -->
+  <footer>
+    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0e/Charity_Water_logo.svg/2560px-Charity_Water_logo.svg.png" 
+         alt="charity: water logo" class="charity-logo">
+    <p>Made for <a href="https://www.charitywater.org" target="_blank">charity: water</a> — bring clean water to communities in need 💧</p>
+    <a class="donate" href="https://www.charitywater.org/donate" target="_blank">Donate Now</a>
   </footer>
-
-  <audio id="collectSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_7c365e38c1.mp3"></audio>
-  <audio id="loseSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f7106e3b15.mp3"></audio>
 
   <script src="script.js"></script>
 </body>

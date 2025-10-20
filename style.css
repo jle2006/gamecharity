@@ -1,184 +1,113 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
-
 body {
-  font-family: 'Raleway', sans-serif;
-  background: linear-gradient(#c6e8f5, #d9fbe2);
   margin: 0;
-  overflow: hidden;
-  color: #333;
-  text-align: center;
-}
-
-.hidden {
-  display: none;
-}
-
-/* Start Screen */
-#startScreen {
-  height: 100vh;
+  font-family: 'Open Sans', sans-serif;
+  background: #e0f7fa;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background: linear-gradient(#c6e8f5, #d9fbe2);
-}
-#startLogo {
-  width: 70px;
-  margin-bottom: 1em;
-}
-#difficultyButtons {
-  display: flex;
-  gap: 1em;
-  margin-top: 1em;
-}
-.difficulty-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 1.2em;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-.easy { background-color: #9ef0a5; }
-.medium { background-color: #ffe066; }
-.hard { background-color: #ff8a80; }
-.difficulty-btn:hover {
-  transform: scale(1.1);
+  min-height: 100vh;
 }
 
-/* Header */
-header {
-  background: #fff9e6;
-  border-bottom: 3px solid #ffe066;
-  padding: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+.screen {
+  display: none;
+  text-align: center;
+  margin-top: 80px;
 }
-#logo {
-  width: 40px;
-  height: 40px;
+
+.screen.active {
+  display: block;
 }
+
 h1 {
-  color: #2b6777;
+  font-family: 'Merriweather', serif;
+  color: #00796b;
 }
 
-/* HUD */
-#hud {
-  display: flex;
-  justify-content: center;
-  gap: 3em;
-  margin: 1em;
-}
-.stat {
-  background: #ffffffcc;
-  padding: 1em 2em;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+.buttons button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border-radius: 12px;
+  border: none;
+  background-color: #009688;
+  color: white;
+  cursor: pointer;
 }
 
-/* Game area */
-#gameArea {
+#game-container {
   position: relative;
-  width: 100%;
-  height: 400px;
-  background: linear-gradient(#eaf9ff, #c3f5cb);
-  border-top: 3px solid #ffe066;
-  border-bottom: 3px solid #ffe066;
+  width: 700px;
+  height: 300px;
+  border: 3px solid #00796b;
+  background: linear-gradient(#b3e5fc, #81d4fa);
   overflow: hidden;
+  margin-top: 20px;
 }
-#waterSource, #bucket {
-  position: absolute;
-  bottom: 60px;
-  font-size: 1.2em;
-}
-#waterSource {
-  left: 50px;
-  color: #0077cc;
-}
-#bucket {
-  right: 80px;
-  color: #b86f00;
-}
+
 #jeff {
   position: absolute;
-  bottom: 60px;
-  left: 150px;
-  width: 120px;
-  transition: transform 0.2s ease;
+  width: 100px;
+  bottom: 10px;
+  left: 50px;
+  transition: bottom 0.3s;
 }
 
-/* Jump animation */
-.jump {
-  animation: jumpArc 0.7s ease-out forwards;
-}
-@keyframes jumpArc {
-  0% { bottom: 60px; }
-  50% { bottom: 200px; transform: scale(1.05); }
-  100% { bottom: 60px; transform: scale(1); }
-}
-
-/* Obstacles */
-.obstacle {
-  position: absolute;
-  bottom: 60px;
-  width: 60px;
-  height: 60px;
-  background: #996633;
-  border-radius: 10px;
-  box-shadow: inset 0 -4px #663300;
-}
-
-/* Progress Bar */
-#progressContainer {
+#bucket {
   position: absolute;
   right: 50px;
-  bottom: 130px;
-  width: 40px;
-  height: 200px;
-  border: 3px solid #ffe066;
+  bottom: 10px;
+  width: 80px;
+  height: 80px;
+  background: #ffa000;
   border-radius: 10px;
-  background: #fff;
 }
-#progressBar {
+
+.obstacle {
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 0%;
-  background: linear-gradient(#00b3ff, #0096ff);
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  background: #4caf50;
   border-radius: 8px;
+}
+
+#score {
+  font-size: 1.2rem;
+  color: #004d40;
+  margin-top: 15px;
 }
 
 /* Footer */
 footer {
-  background: #fff9e6;
-  border-top: 3px solid #ffe066;
-  padding: 1em;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #004d40;
+  color: white;
   text-align: center;
+  padding: 10px;
 }
-.footer-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-.footer-logo {
-  width: 30px;
+
+footer .charity-logo {
   height: 30px;
+  vertical-align: middle;
+  margin-right: 8px;
 }
-a {
-  color: #0077cc;
+
+footer a {
+  color: #ffeb3b;
   text-decoration: none;
 }
-.donate-btn {
-  background: #ffe066;
-  color: #333;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-weight: 600;
+
+footer a:hover {
+  text-decoration: underline;
 }
-.donate-btn:hover {
-  background: #ffd633;
+
+.donate {
+  background: #ffeb3b;
+  color: #004d40;
+  padding: 5px 10px;
+  margin-left: 10px;
+  border-radius: 6px;
 }
