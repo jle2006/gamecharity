@@ -1,139 +1,151 @@
 body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #cdeaff, #d6fadc);
   margin: 0;
-  font-family: 'Open Sans', sans-serif;
-  background: #e0f7fa;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
-.screen {
+.hidden {
   display: none;
+}
+
+/* Difficulty screen */
+#difficulty-screen {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 10%;
 }
-
-.screen.active {
-  display: block;
-}
-
-h1 {
-  font-family: 'Merriweather', serif;
-  color: #00796b;
-}
-
-.buttons button {
+.difficulty-btn {
   margin: 10px;
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  border-radius: 12px;
+  padding: 12px 24px;
   border: none;
-  background-color: #009688;
+  border-radius: 12px;
+  background-color: #5ab2ff;
   color: white;
+  font-size: 1.2rem;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+.difficulty-btn:hover {
+  transform: scale(1.1);
+  background-color: #0077cc;
 }
 
+/* Game Container */
 #game-container {
+  width: 90%;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+.stat-box {
+  background: white;
+  border-radius: 16px;
+  padding: 12px 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Game Area */
+#game-area {
   position: relative;
-  width: 800px;
+  width: 100%;
   height: 300px;
-  border: 3px solid #00796b;
-  background: #b3e5fc;
+  background: linear-gradient(to bottom, #e9f6ff, #d8fbe0);
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
   overflow: hidden;
-  margin-top: 20px;
 }
 
-#background {
+#water-source, #bucket, #jeff {
   position: absolute;
-  width: 1600px;
-  height: 100%;
-  background: linear-gradient(#b3e5fc, #81d4fa);
-  background-image: url('https://i.imgur.com/Y8rkD7P.png'); /* sample scrolling background */
-  background-size: cover;
-  animation: scrollBackground 10s linear infinite;
-}
-
-@keyframes scrollBackground {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-800px); }
+  bottom: 0;
+  text-align: center;
 }
 
 #water-source {
-  position: absolute;
-  left: 0;
-  bottom: 10px;
-  width: 80px;
-  height: 80px;
-  background: #2196f3;
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(33,150,243,0.7);
+  left: 50px;
 }
-
 #bucket {
-  position: absolute;
-  right: 0;
-  bottom: 10px;
-  width: 80px;
-  height: 80px;
-  background: #ffa000;
-  border-radius: 10px;
+  right: 50px;
+}
+.source {
+  width: 60px;
+  height: 90px;
+  background: royalblue;
+  border-radius: 50% 50% 10% 10%;
+  border: 4px solid #0033aa;
+  margin: 0 auto;
+}
+.bucket {
+  width: 70px;
+  height: 60px;
+  background: orange;
+  border: 3px solid brown;
+  border-radius: 5px;
+  margin: 0 auto;
 }
 
-#jeff {
-  position: absolute;
-  bottom: 10px;
+/* Jeff */
+#jeff img {
   width: 100px;
-  left: 100px;
-  transition: bottom 0.3s;
+  height: auto;
+}
+#jeff {
+  left: 50%;
+  transform: translateX(-50%);
+}
+#jeff.jump {
+  animation: jump 0.6s ease;
+}
+@keyframes jump {
+  0% { bottom: 0; }
+  50% { bottom: 120px; }
+  100% { bottom: 0; }
 }
 
+/* Obstacles */
 .obstacle {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   width: 40px;
   height: 40px;
-  background: #4caf50;
-  border-radius: 5px;
-}
-
-#score {
-  font-size: 1.2rem;
-  color: #004d40;
-  margin-top: 15px;
+  background: gray;
+  border-radius: 6px;
 }
 
 /* Footer */
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #004d40;
+  margin-top: 20px;
+  background: #004466;
   color: white;
+  width: 100%;
   text-align: center;
-  padding: 10px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-footer .charity-logo {
-  height: 30px;
-  vertical-align: middle;
-  margin-right: 8px;
+#donate-btn {
+  margin-top: 10px;
+  background: #00bfff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
 }
-
-footer a {
-  color: #ffeb3b;
-  text-decoration: none;
+#donate-btn:hover {
+  background: #0099cc;
 }
-
-footer a:hover {
-  text-decoration: underline;
-}
-
-.donate {
-  background: #ffeb3b;
-  color: #004d40;
-  padding: 5px 10px;
-  margin-left: 10px;
-  border-radius: 6px;
+#charity-logo {
+  margin-top: 10px;
+  width: 60px;
+  height: auto;
 }

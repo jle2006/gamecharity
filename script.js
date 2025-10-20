@@ -1,104 +1,102 @@
-const difficultyScreen = document.getElementById('difficulty-screen');
-const gameScreen = document.getElementById('game-screen');
-const gameContainer = document.getElementById('game-container');
 const jeff = document.getElementById('jeff');
 const scoreDisplay = document.getElementById('score');
+const timeDisplay = document.getElementById('time');
+const waterSavedDisplay = document.getElementById('water-saved');
+const jeffStatus = document.getElementById('jeff-status');
+const gameArea = document.getElementById('game-area');
+const difficultyScreen = document.getElementById('difficulty-screen');
+const gameContainer = document.getElementById('game-container');
 
-let distance = 0;
+let score = 0;
+let timeLeft = 100;
+let waterSaved = 0;
+let carryingWater = false;
+let gameRunning = false;
+let moveDirection = 'right';
 let speed = 3;
-let obstacles = [];
-let gameInterval;
-let obstacleInterval;
-let isJumping = false;
-let velocity = 0;
-let gravity = -0.4;
 
-function startGame(difficulty) {
-  difficultyScreen.classList.remove('active');
-  gameScreen.classList.add('active');
-
-  switch (difficulty) {
-    case 'easy': speed = 3; break;
-    case 'medium': speed = 5; break;
-    case 'hard': speed = 7; break;
-  }
-
-  spawnObstacles();
-  gameInterval = setInterval(updateGame, 20);
-}
-
-// Create scrolling background illusion
-function updateGame() {
-  distance += 0.05 * speed;
-  scoreDisplay.textContent = `Distance: ${Math.floor(distance)} miles`;
-
-  // Move obstacles to the left
-  obstacles.forEach((ob) => {
-    const left = parseInt(ob.style.left);
-    ob.style.left = left - speed + 'px';
-    if (left < -50) {
-      ob.remove();
-      obstacles = obstacles.filter(o => o !== ob);
-    }
-
-    // Collision detection
-    const jeffRect = jeff.getBoundingClientRect();
-    const obRect = ob.getBoundingClientRect();
-    if (
-      jeffRect.left < obRect.left + obRect.width &&
-      jeffRect.left + jeffRect.width > obRect.left &&
-      jeffRect.bottom > obRect.top
-    ) {
-      endGame();
-    }
+// Difficulty selection
+document.querySelectorAll('.difficulty-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    speed = parseInt(btn.dataset.speed);
+    difficultyScreen.classList.add('hidden');
+    gameContainer.classList.remove('hidden');
+    startGame();
   });
-
-  // Handle jump gravity
-  if (isJumping) {
-    velocity += gravity;
-    let newBottom = parseInt(jeff.style.bottom) + velocity;
-    if (newBottom <= 10) {
-      newBottom = 10;
-      isJumping = false;
-      velocity = 0;
-    }
-    jeff.style.bottom = newBottom + 'px';
-  }
-
-  if (distance >= 100) endGame(true);
-}
-
-// Jump when pressing Space
-document.addEventListener('keydown', (e) => {
-  if (e.code === 'Space' && !isJumping) jump();
 });
 
-function jump() {
-  isJumping = true;
-  velocity = 8;
+function startGame() {
+  gameRunning = true;
+  moveJeff();
+  spawnObstacles();
+  startTimer();
 }
 
-// Spawn obstacles periodically
+// Movement
+function moveJeff() {
+  let position = jeff.offsetLeft;
+
+  const moveInterval = setInterval(() => {
+    if (!gameRunning) return clearInterval(moveInterval);
+
+    if (moveDirection === 'right') position += speed;
+    else position -= speed;
+
+    jeff.style.left = position + 'px';
+    gameArea.scrollLeft = position - gameArea.clientWidth / 2;
+
+    if (position + jeff.offsetWidth >= gameArea.clientWidth - 80) {
+      // reached bucket
+      if (carryingWater) {
+        carryingWater = false;
+        score += 10;
+        waterSaved += 5;
+        jeffStatus.textContent = 'Empty';
+        scoreDisplay.textContent = `${score} points`;
+        waterSavedDisplay.textContent = `${waterSaved}%`;
+      }
+      moveDirection = 'left';
+    } else if (position <= 80) {
+      // reached water source
+      if (!carryingWater) {
+        carryingWater = true;
+        jeffStatus.textContent = 'Full';
+      }
+      moveDirection = 'right';
+    }
+  }, 20);
+}
+
+// Timer
+function startTimer() {
+  const timer = setInterval(() => {
+    if (!gameRunning) return clearInterval(timer);
+    timeLeft--;
+    timeDisplay.textContent = `${timeLeft}s`;
+    if (timeLeft <= 0) {
+      gameRunning = false;
+      alert('Time up! Jeff saved ' + waterSaved + '% water!');
+      location.reload();
+    }
+  }, 1000);
+}
+
+// Jump
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && !jeff.classList.contains('jump')) {
+    jeff.classList.add('jump');
+    setTimeout(() => jeff.classList.remove('jump'), 600);
+  }
+});
+
+// Obstacles
 function spawnObstacles() {
-  obstacleInterval = setInterval(() => {
+  setInterval(() => {
+    if (!gameRunning) return;
     const obstacle = document.createElement('div');
     obstacle.classList.add('obstacle');
-    obstacle.style.left = gameContainer.offsetWidth + 'px';
-    gameContainer.appendChild(obstacle);
-    obstacles.push(obstacle);
-  }, 2000);
-}
-
-function endGame(victory = false) {
-  clearInterval(gameInterval);
-  clearInterval(obstacleInterval);
-  obstacles.forEach(o => o.remove());
-
-  if (victory) {
-    alert("🎉 Jeff reached 100 miles and delivered clean water! Thank you for playing!");
-  } else {
-    alert("💥 Jeff tripped on an obstacle! Try again!");
-  }
-
-  window.location.reload();
+    obstacle.style.left = Math.random() * (gameArea.clientWidth - 50) + 'px';
+    gameArea.appendChild(obstacle);
+    setTimeout(() => obstacle.remove(), 8000);
+  }, 3000);
 }

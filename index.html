@@ -3,38 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jeff’s Water Run for charity: water</title>
+  <title>Jeff the Shark Water Saver Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Difficulty Screen -->
-  <div id="difficulty-screen" class="screen active">
-    <h1>Jeff’s Water Run</h1>
-    <p>Select your difficulty:</p>
-    <div class="buttons">
-      <button onclick="startGame('easy')">Easy</button>
-      <button onclick="startGame('medium')">Medium</button>
-      <button onclick="startGame('hard')">Hard</button>
+  <div id="difficulty-screen">
+    <h1>Choose Difficulty</h1>
+    <button class="difficulty-btn" data-speed="2">Easy</button>
+    <button class="difficulty-btn" data-speed="4">Medium</button>
+    <button class="difficulty-btn" data-speed="6">Hard</button>
+  </div>
+
+  <div id="game-container" class="hidden">
+    <div class="stats">
+      <div class="stat-box">
+        <p>Score</p>
+        <span id="score">0 points</span>
+      </div>
+      <div class="stat-box">
+        <p>Time Left</p>
+        <span id="time">100s</span>
+      </div>
+      <div class="stat-box">
+        <p>Water Saved</p>
+        <span id="water-saved">0%</span>
+      </div>
+    </div>
+
+    <div id="game-area">
+      <div id="water-source">
+        <div class="source"></div>
+        <p>Water Source</p>
+      </div>
+      <div id="jeff">
+        <img src="Jeff_the_Land_Shark_Hero_Portrait-removebg-preview.png" alt="Jeff the Shark">
+        <p>Jeff the Shark<br><span id="jeff-status">Empty</span></p>
+      </div>
+      <div id="bucket">
+        <div class="bucket"></div>
+        <p>Bucket</p>
+      </div>
     </div>
   </div>
 
-  <!-- Game Screen -->
-  <div id="game-screen" class="screen">
-    <div id="game-container">
-      <div id="background"></div>
-      <div id="water-source"></div>
-      <img id="jeff" src="Jeff_the_Land_Shark_Hero_Portrait-removebg-preview.png" alt="Jeff the Land Shark" />
-      <div id="bucket"></div>
-    </div>
-    <p id="score">Distance: 0 miles</p>
-  </div>
-
-  <!-- Footer -->
   <footer>
-    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0e/Charity_Water_logo.svg/2560px-Charity_Water_logo.svg.png" 
-         alt="charity: water logo" class="charity-logo">
-    <p>Made for <a href="https://www.charitywater.org" target="_blank">charity: water</a> — bringing clean water to communities in need 💧</p>
-    <a class="donate" href="https://www.charitywater.org/donate" target="_blank">Donate Now</a>
+    <p>Help save the ocean with Jeff the Shark! 🌊</p>
+    <button id="donate-btn">Donate Now</button>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/50/Water_drop_logo.png" alt="Charity Logo" id="charity-logo">
   </footer>
 
   <script src="script.js"></script>
