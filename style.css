@@ -7,7 +7,7 @@ body {
   overflow: hidden;
 }
 
-/* Top HUD section */
+/* HUD section */
 .hud {
   display: flex;
   justify-content: space-around;
@@ -24,7 +24,7 @@ body {
   text-align: center;
 }
 
-/* Game area container */
+/* Game area */
 #gameArea {
   position: relative;
   width: 100%;
@@ -35,16 +35,16 @@ body {
   overflow: hidden;
 }
 
-/* Jeff character */
+/* Jeff image */
 #jeff {
   position: absolute;
   bottom: 60px;
   left: 150px;
-  width: 80px;
+  width: 100px;
   transition: transform 0.1s;
 }
 
-/* Objects */
+/* Water source and bucket */
 #bucket {
   position: absolute;
   right: 100px;

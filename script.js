@@ -1,4 +1,4 @@
-// Initial game state
+// Game state
 let score = 0;
 let waterSaved = 0;
 let timeLeft = 150;
@@ -15,7 +15,7 @@ let velocityY = 0;
 let gravity = 0.6;
 let jumping = false;
 
-// Countdown timer
+// Timer countdown
 const timer = setInterval(() => {
   timeLeft--;
   timeDisplay.textContent = timeLeft;
@@ -25,7 +25,7 @@ const timer = setInterval(() => {
   }
 }, 1000);
 
-// Movement controls
+// Controls
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight") jeffX += 20;
   if (e.key === "ArrowLeft") jeffX -= 20;
@@ -37,7 +37,7 @@ document.addEventListener("keydown", (e) => {
 
 // Game loop
 function update() {
-  // Apply gravity for jumping
+  // Jump physics
   if (jumping) {
     jeffY += velocityY;
     velocityY -= gravity;
@@ -51,7 +51,7 @@ function update() {
   jeff.style.left = jeffX + "px";
   jeff.style.bottom = jeffY + "px";
 
-  // Screen boundaries
+  // Boundaries
   if (jeffX < 0) jeffX = 0;
   if (jeffX > window.innerWidth - 100) jeffX = window.innerWidth - 100;
 
