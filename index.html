@@ -7,22 +7,25 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
+  <!-- Start Screen -->
+  <div id="startScreen">
+    <img id="startLogo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="charity: water logo">
+    <h1>💧 Jeff the Land Shark: Water Saver</h1>
+    <p>Select your difficulty:</p>
+    <div id="difficultyButtons">
+      <button class="difficulty-btn easy">Easy</button>
+      <button class="difficulty-btn medium">Medium</button>
+      <button class="difficulty-btn hard">Hard</button>
+    </div>
+  </div>
+
+  <!-- Game Area -->
+  <header id="gameHeader" class="hidden">
     <img id="logo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="Charity: water logo">
     <h1>💧 Jeff the Land Shark: Water Saver</h1>
   </header>
 
-  <main>
-    <div id="controls">
-      <label for="difficulty">Difficulty:</label>
-      <select id="difficulty">
-        <option value="easy">Easy</option>
-        <option value="normal" selected>Normal</option>
-        <option value="hard">Hard</option>
-      </select>
-      <button id="startGame">Start Game</button>
-    </div>
-
+  <main id="gameMain" class="hidden">
     <div id="hud">
       <div class="stat"><h3>Score</h3><p id="score">0</p></div>
       <div class="stat"><h3>Time</h3><p id="time">150</p></div>
@@ -44,7 +47,7 @@
     </div>
   </main>
 
-  <footer>
+  <footer id="gameFooter" class="hidden">
     <div class="footer-content">
       <img class="footer-logo" src="https://www.charitywater.org/assets/static/brand/yellow_drop.78d2d6d7.svg" alt="Charity: water logo">
       <div>
