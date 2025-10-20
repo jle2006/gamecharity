@@ -15,6 +15,17 @@ let gameRunning = false;
 let moveDirection = 'right';
 let speed = 3;
 
+// Donation button functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const donateButton = document.getElementById('donate-btn');
+
+        if (donateButton) {
+          donateButton.addEventListener('click', function() {
+            window.location.href = 'https://www.charitywater.org/donate';
+          });
+        }
+      });
+
 // Difficulty selection
 document.querySelectorAll('.difficulty-btn').forEach(btn => {
   btn.addEventListener('click', () => {
