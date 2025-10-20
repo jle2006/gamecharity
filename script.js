@@ -1,96 +1,104 @@
 const difficultyScreen = document.getElementById('difficulty-screen');
 const gameScreen = document.getElementById('game-screen');
-const jeff = document.getElementById('jeff');
-const bucket = document.getElementById('bucket');
-const scoreDisplay = document.getElementById('score');
 const gameContainer = document.getElementById('game-container');
+const jeff = document.getElementById('jeff');
+const scoreDisplay = document.getElementById('score');
 
 let distance = 0;
-let movingRight = true;
-let gameSpeed = 2;
+let speed = 3;
+let obstacles = [];
 let gameInterval;
 let obstacleInterval;
 let isJumping = false;
+let velocity = 0;
+let gravity = -0.4;
 
 function startGame(difficulty) {
   difficultyScreen.classList.remove('active');
   gameScreen.classList.add('active');
 
   switch (difficulty) {
-    case 'easy': gameSpeed = 2; break;
-    case 'medium': gameSpeed = 4; break;
-    case 'hard': gameSpeed = 6; break;
+    case 'easy': speed = 3; break;
+    case 'medium': speed = 5; break;
+    case 'hard': speed = 7; break;
   }
 
   spawnObstacles();
-  gameInterval = setInterval(moveJeff, 20);
+  gameInterval = setInterval(updateGame, 20);
 }
 
-// Move Jeff back and forth automatically
-function moveJeff() {
-  const jeffLeft = parseInt(window.getComputedStyle(jeff).left);
+// Create scrolling background illusion
+function updateGame() {
+  distance += 0.05 * speed;
+  scoreDisplay.textContent = `Distance: ${Math.floor(distance)} miles`;
 
-  if (movingRight) {
-    jeff.style.left = jeffLeft + gameSpeed + 'px';
-    if (jeffLeft >= gameContainer.offsetWidth - jeff.offsetWidth - 100) {
-      movingRight = false;
-      distance++;
+  // Move obstacles to the left
+  obstacles.forEach((ob) => {
+    const left = parseInt(ob.style.left);
+    ob.style.left = left - speed + 'px';
+    if (left < -50) {
+      ob.remove();
+      obstacles = obstacles.filter(o => o !== ob);
     }
-  } else {
-    jeff.style.left = jeffLeft - gameSpeed + 'px';
-    if (jeffLeft <= 50) {
-      movingRight = true;
-      distance++;
+
+    // Collision detection
+    const jeffRect = jeff.getBoundingClientRect();
+    const obRect = ob.getBoundingClientRect();
+    if (
+      jeffRect.left < obRect.left + obRect.width &&
+      jeffRect.left + jeffRect.width > obRect.left &&
+      jeffRect.bottom > obRect.top
+    ) {
+      endGame();
     }
+  });
+
+  // Handle jump gravity
+  if (isJumping) {
+    velocity += gravity;
+    let newBottom = parseInt(jeff.style.bottom) + velocity;
+    if (newBottom <= 10) {
+      newBottom = 10;
+      isJumping = false;
+      velocity = 0;
+    }
+    jeff.style.bottom = newBottom + 'px';
   }
 
-  scoreDisplay.textContent = `Distance: ${distance} miles`;
-  if (distance >= 100) endGame();
+  if (distance >= 100) endGame(true);
 }
 
-// Jumping function
+// Jump when pressing Space
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space' && !isJumping) jump();
 });
 
 function jump() {
   isJumping = true;
-  let jumpHeight = 0;
-  const up = setInterval(() => {
-    if (jumpHeight >= 80) {
-      clearInterval(up);
-      const down = setInterval(() => {
-        if (jumpHeight <= 0) {
-          clearInterval(down);
-          isJumping = false;
-        } else {
-          jumpHeight -= 5;
-          jeff.style.bottom = 10 + jumpHeight + 'px';
-        }
-      }, 20);
-    } else {
-      jumpHeight += 5;
-      jeff.style.bottom = 10 + jumpHeight + 'px';
-    }
-  }, 20);
+  velocity = 8;
 }
 
-// Create random obstacles
+// Spawn obstacles periodically
 function spawnObstacles() {
   obstacleInterval = setInterval(() => {
     const obstacle = document.createElement('div');
     obstacle.classList.add('obstacle');
-    obstacle.style.left = Math.random() * (gameContainer.offsetWidth - 60) + 'px';
+    obstacle.style.left = gameContainer.offsetWidth + 'px';
     gameContainer.appendChild(obstacle);
-
-    setTimeout(() => obstacle.remove(), 5000);
+    obstacles.push(obstacle);
   }, 2000);
 }
 
-// End game
-function endGame() {
+function endGame(victory = false) {
   clearInterval(gameInterval);
   clearInterval(obstacleInterval);
-  alert("🎉 Jeff delivered 100 miles of clean water! Thank you for playing!");
+  obstacles.forEach(o => o.remove());
+
+  if (victory) {
+    alert("🎉 Jeff reached 100 miles and delivered clean water! Thank you for playing!");
+  } else {
+    alert("💥 Jeff tripped on an obstacle! Try again!");
+  }
+
   window.location.reload();
 }

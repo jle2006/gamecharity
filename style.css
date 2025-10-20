@@ -36,30 +36,56 @@ h1 {
 
 #game-container {
   position: relative;
-  width: 700px;
+  width: 800px;
   height: 300px;
   border: 3px solid #00796b;
-  background: linear-gradient(#b3e5fc, #81d4fa);
+  background: #b3e5fc;
   overflow: hidden;
   margin-top: 20px;
 }
 
-#jeff {
+#background {
   position: absolute;
-  width: 100px;
+  width: 1600px;
+  height: 100%;
+  background: linear-gradient(#b3e5fc, #81d4fa);
+  background-image: url('https://i.imgur.com/Y8rkD7P.png'); /* sample scrolling background */
+  background-size: cover;
+  animation: scrollBackground 10s linear infinite;
+}
+
+@keyframes scrollBackground {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-800px); }
+}
+
+#water-source {
+  position: absolute;
+  left: 0;
   bottom: 10px;
-  left: 50px;
-  transition: bottom 0.3s;
+  width: 80px;
+  height: 80px;
+  background: #2196f3;
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(33,150,243,0.7);
 }
 
 #bucket {
   position: absolute;
-  right: 50px;
+  right: 0;
   bottom: 10px;
   width: 80px;
   height: 80px;
   background: #ffa000;
   border-radius: 10px;
+}
+
+#jeff {
+  position: absolute;
+  bottom: 10px;
+  width: 100px;
+  left: 100px;
+  transition: bottom 0.3s;
 }
 
 .obstacle {
@@ -68,7 +94,7 @@ h1 {
   width: 40px;
   height: 40px;
   background: #4caf50;
-  border-radius: 8px;
+  border-radius: 5px;
 }
 
 #score {
