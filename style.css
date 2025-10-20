@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(#bde5f0, #c6f3d8);
+  overflow: hidden;
+}
+
+/* Top HUD section */
+.hud {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 15px;
+  color: #333;
+}
+
+.hud-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 15px 25px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+/* Game area container */
+#gameArea {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  background: linear-gradient(#eaf6ff, #d8fbe0);
+  border: 2px dashed #b0d0d8;
+  overflow: hidden;
+}
+
+/* Jeff character */
+#jeff {
+  position: absolute;
+  bottom: 60px;
+  left: 150px;
+  width: 80px;
+  transition: transform 0.1s;
+}
+
+/* Objects */
+#bucket {
+  position: absolute;
+  right: 100px;
+  bottom: 60px;
+  width: 70px;
+  height: 60px;
+  background: #c46a00;
+  border: 4px solid #7b4200;
+  border-radius: 5px;
+}
+
+#waterSource {
+  position: absolute;
+  left: 80px;
+  bottom: 60px;
+  width: 60px;
+  height: 80px;
+  background: #3b7cff;
+  border: 4px solid #1b5bd8;
+  border-radius: 25px;
+}
+
+/* Ground */
+#ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: #6ecf68;
+}
