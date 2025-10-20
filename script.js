@@ -1,11 +1,10 @@
-// Game state
 let score = 0;
 let waterSaved = 0;
 let timeLeft = 150;
 let carryingWater = false;
 let direction = 1; // 1 = right, -1 = left
-let jeffSpeed = 3; // controls auto movement
-let distance = 0; // track "miles"
+let jeffSpeed = 3;
+let distance = 0;
 let totalMiles = 0;
 let isJumping = false;
 
@@ -16,69 +15,64 @@ const waterDisplay = document.getElementById("waterSaved");
 const obstacles = document.querySelectorAll(".obstacle");
 
 let jeffX = 150;
-let jeffY = 60;
 
-// Timer countdown
+// Countdown timer
 const timer = setInterval(() => {
   timeLeft--;
   timeDisplay.textContent = timeLeft;
   if (timeLeft <= 0) {
     clearInterval(timer);
-    alert(`Time's up! Jeff traveled ${totalMiles} miles and saved ${waterSaved}% of the water!`);
+    alert(`⏰ Time's up! Jeff traveled ${totalMiles} miles and saved ${waterSaved}% of the water!`);
+    location.reload();
   }
 }, 1000);
 
 // Jump function
 function jump() {
-  if (isJumping) return; // prevent double jump
+  if (isJumping) return;
   isJumping = true;
   jeff.classList.add("jump");
 
-  // Stay in air for ~600ms total
   setTimeout(() => {
     jeff.classList.remove("jump");
-    setTimeout(() => {
-      isJumping = false;
-    }, 200);
-  }, 400);
+    setTimeout(() => { isJumping = false; }, 200);
+  }, 600);
 }
 
-// Keyboard listener for jump
+// Listen for Spacebar or Up Arrow
 document.addEventListener("keydown", (e) => {
   if (e.code === "Space" || e.code === "ArrowUp") {
     jump();
   }
 });
 
-// Collision detection helper
-function isColliding(aX, aY, bX, bWidth) {
-  return aX + 60 > bX && aX < bX + bWidth && Math.abs(aY - 60) < 30;
+// Simple collision detection
+function isColliding(aX, bX, bWidth) {
+  return aX + 60 > bX && aX < bX + bWidth;
 }
 
-// Main game loop
+// Game loop
 function update() {
-  // Move Jeff automatically
   jeffX += jeffSpeed * direction;
-  distance += Math.abs(jeffSpeed) / 2;
+  jeff.style.left = jeffX + "px";
 
-  // Flip Jeff visually depending on direction
+  // Flip direction visually
   jeff.style.transform = direction === 1 ? "scaleX(1)" : "scaleX(-1)";
 
-  // Boundaries and direction changes
-  const waterSourceX = 80;
+  const waterSourceX = 50;
   const bucketX = window.innerWidth - 200;
 
-  // Hit water source
+  // Collect water
   if (direction === -1 && jeffX <= waterSourceX + 20) {
     if (!carryingWater) {
       carryingWater = true;
       score += 10;
       scoreDisplay.textContent = score;
     }
-    direction = 1; // go right
+    direction = 1;
   }
 
-  // Hit bucket
+  // Drop water into bucket
   if (direction === 1 && jeffX >= bucketX) {
     if (carryingWater) {
       carryingWater = false;
@@ -88,14 +82,14 @@ function update() {
       scoreDisplay.textContent = score;
       waterDisplay.textContent = waterSaved + "%";
     }
-    direction = -1; // go back left
+    direction = -1;
   }
 
-  // Collision with obstacles (only if not jumping)
+  // Obstacle collision (only if not jumping)
   if (!isJumping) {
     obstacles.forEach((obs) => {
       const obsX = parseInt(obs.style.left);
-      if (isColliding(jeffX, jeffY, obsX, 60)) {
+      if (isColliding(jeffX, obsX, 60)) {
         if (carryingWater) {
           carryingWater = false;
           score -= 10;
@@ -104,9 +98,6 @@ function update() {
       }
     });
   }
-
-  // Update Jeff’s position
-  jeff.style.left = jeffX + "px";
 
   requestAnimationFrame(update);
 }
