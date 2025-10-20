@@ -15,17 +15,6 @@ let gameRunning = false;
 let moveDirection = 'right';
 let speed = 3;
 
-// Donation button functionality
-      document.addEventListener('DOMContentLoaded', function() {
-        const donateButton = document.getElementById('donate-btn');
-
-        if (donateButton) {
-          donateButton.addEventListener('click', function() {
-            window.location.href = 'https://www.charitywater.org/donate';
-          });
-        }
-      });
-
 // Difficulty selection
 document.querySelectorAll('.difficulty-btn').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -57,7 +46,6 @@ function moveJeff() {
     gameArea.scrollLeft = position - gameArea.clientWidth / 2;
 
     if (position + jeff.offsetWidth >= gameArea.clientWidth - 80) {
-      // reached bucket
       if (carryingWater) {
         carryingWater = false;
         score += 10;
@@ -68,13 +56,28 @@ function moveJeff() {
       }
       moveDirection = 'left';
     } else if (position <= 80) {
-      // reached water source
       if (!carryingWater) {
         carryingWater = true;
         jeffStatus.textContent = 'Full';
       }
       moveDirection = 'right';
     }
+
+    // ✅ Collision detection: Jeff loses points if he hits an obstacle
+    const jeffRect = jeff.getBoundingClientRect();
+    document.querySelectorAll('.obstacle').forEach(obstacle => {
+      const obsRect = obstacle.getBoundingClientRect();
+      if (
+        jeffRect.left < obsRect.right &&
+        jeffRect.right > obsRect.left &&
+        jeffRect.bottom > obsRect.top &&
+        jeffRect.top < obsRect.bottom
+      ) {
+        score = Math.max(0, score - 5); // lose 5 points but not below 0
+        scoreDisplay.textContent = `${score} points`;
+        obstacle.remove(); // remove obstacle after collision
+      }
+    });
   }, 20);
 }
 
