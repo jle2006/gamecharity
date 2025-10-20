@@ -43,9 +43,8 @@ body {
   transition: bottom 0.3s ease, transform 0.2s;
 }
 
-/* When Jeff jumps */
 .jump {
-  bottom: 200px !important;
+  bottom: 200px !important; /* height */
 }
 
 
